@@ -25,6 +25,9 @@ class Theme(models.Model):
 
     class Meta:
         ordering = ["name"]
+        indexes = [
+            models.Index(fields=['name', ])
+        ]
 
     def __str__(self):
         return self.name
@@ -51,6 +54,9 @@ class Article(models.Model):
 
     class Meta:
         ordering = ["title"]
+        indexes = [
+            models.Index(fields=['theme', 'title', ])
+        ]
 
     def __str__(self):
         return self.title
