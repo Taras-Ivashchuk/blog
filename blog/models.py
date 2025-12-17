@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.functions import Lower
 from django.urls import reverse
 
 
@@ -51,6 +52,11 @@ class Article(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+    path = models.GeneratedField(
+        expression=Lower("title"),
+        output_field=models.CharField(max_length=200),
+        db_persist=True
+    )
 
     class Meta:
         ordering = ["title"]
