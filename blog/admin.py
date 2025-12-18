@@ -34,7 +34,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ArticleImages)
 class ArticleImagesAdmin(admin.ModelAdmin):
-    list_display = admin.ModelAdmin.list_display + ("picture", "get_author")
+    list_display = admin.ModelAdmin.list_display + ("get_author",)
     list_filter = ("article", "article__author")
     search_fields = admin.ModelAdmin.search_fields + (
         "article__author__username__icontains",
