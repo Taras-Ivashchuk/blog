@@ -53,11 +53,7 @@ class Article(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
-    path = models.GeneratedField(
-        expression=Lower("title"),
-        output_field=models.CharField(max_length=200),
-        db_persist=True
-    )
+    slug = models.SlugField(default="", null=False)
 
     class Meta:
         ordering = ["title"]
