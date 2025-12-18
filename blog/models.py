@@ -80,6 +80,7 @@ class Comments(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name_plural="Comments"
 
     def __str__(self):
         return f"{self.text[:50]}..."
@@ -92,3 +93,6 @@ class ArticleImages(models.Model):
         on_delete=models.CASCADE,
         related_name="pictures"
     )
+
+    class Meta:
+        verbose_name_plural = "Article images"
