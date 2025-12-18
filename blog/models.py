@@ -57,7 +57,7 @@ class Article(models.Model):
     class Meta:
         ordering = ["title"]
         indexes = [
-            models.Index(fields=['theme', 'title', ])
+            models.Index(fields=['title', ])
         ]
 
     def __str__(self):
