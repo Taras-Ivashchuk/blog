@@ -96,3 +96,11 @@ class ArticleImages(models.Model):
 
     class Meta:
         verbose_name_plural = "Article images"
+
+    def __str__(self):
+        return self.article.title
+
+    def get_author(self):
+        return self.article.author.username
+
+    get_author.short_description = 'author'
