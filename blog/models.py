@@ -2,7 +2,6 @@ from cloudinary.models import CloudinaryField
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models.functions import Lower
 from django.urls import reverse
 
 
