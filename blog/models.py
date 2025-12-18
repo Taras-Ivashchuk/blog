@@ -47,7 +47,7 @@ class Article(models.Model):
     )
     content = models.TextField()
     author = models.ForeignKey(
-        settings.USER_AUTH_MODEL, on_delete=models.RESTRICT,
+        settings.AUTH_USER_MODEL, on_delete=models.RESTRICT,
         related_name="articles"
     )
 
