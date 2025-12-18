@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -6,7 +7,7 @@ from django.urls import reverse
 
 
 class Author(AbstractUser):
-    avatar = models.ImageField()
+    avatar = CloudinaryField("avatar")
 
     class Meta:
         verbose_name = "author"
@@ -90,7 +91,7 @@ class Comments(models.Model):
 
 
 class ArticleImages(models.Model):
-    picture = models.ImageField()
+    picture = CloudinaryField("picture")
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
