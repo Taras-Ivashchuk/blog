@@ -25,9 +25,12 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class AuthorListView(generic.ListView):
     model = Author
+    paginate_by = 10
 
 class ThemeListView(generic.ListView):
     model = Theme
+    paginate_by = 10
 
 class ArticleListView(generic.ListView):
     model = Article
+    paginate_by = 10
