@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
+from django.views import generic
 
-from blog.models import Theme, Article, ArticleImages
+from blog.models import Theme, Article, ArticleImages, Author
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -20,3 +21,13 @@ def index(request: HttpRequest) -> HttpResponse:
         "num_visits": num_visits,
     }
     return render(request, "blog/index.html", ctx)
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+
+class ThemeListView(generic.ListView):
+    model = Theme
+
+class ArticleListView(generic.ListView):
+    model = Article

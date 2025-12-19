@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Themes</h1>
+  {% if theme_list %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Name
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for theme in theme_list %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>
+            {{ theme.name }}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no themes yet</p>
+  {% endif %}
+{% endblock %}

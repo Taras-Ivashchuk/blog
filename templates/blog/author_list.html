@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Authors</h1>
+  {% if author_list %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Author first and last name
+        </th>
+        <th scope="col">
+          Author avatar
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for author in author_list %}
+        <tr>
+          <th scope="row">{{ author.id }}</th>
+          <td>
+            {% if author.first_name and author.last_name %}
+              {{ author.first_name }} {{ author.last_name }}
+            {% else %}
+              {{ author.username }}
+            {% endif %}
+          </td>
+          <td>
+            <img src="{{ author.avatar.url }}" alt="{{ author.username }}"
+                 width="200" height="100" class="avatar-img">
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no authors yet</p>
+  {% endif %}
+{% endblock %}

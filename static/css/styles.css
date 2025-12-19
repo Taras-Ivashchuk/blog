@@ -6,3 +6,8 @@ body {
     float: right;
     margin: 0 2px 0 2px;
 }
+
+.avatar-img {
+    object-fit: cover;
+    border-radius: 4px;
+}

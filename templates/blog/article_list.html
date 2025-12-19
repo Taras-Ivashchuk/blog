@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Articles</h1>
+  {% if article_list %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Title
+        </th>
+        <th scope="col">
+          Description
+        </th>
+        <th scope="col">
+          Theme
+        </th>
+        <th scope="col">
+          Author
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for article in article_list %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>
+            {{ article.title }}
+          </td>
+          <td>
+            {{ article.description }}
+          </td>
+          <td>
+            <ul class="list-unstyled list-inline">
+              {% for theme in article.themes.all %}
+                <li>
+                  {{ theme.name }}
+                </li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            {{ article.author }}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no authors yet</p>
+  {% endif %}
+{% endblock %}
