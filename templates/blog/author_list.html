@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cloudinary %}
 
 {% block content %}
   <h1>Authors</h1>
@@ -22,15 +23,12 @@
         <tr>
           <th scope="row">{{ author.id }}</th>
           <td>
-            {% if author.first_name and author.last_name %}
-              {{ author.first_name }} {{ author.last_name }}
-            {% else %}
+            <a href="{{ author.get_absolute_url }}">
               {{ author.username }}
-            {% endif %}
+            </a>
           </td>
           <td>
-            <img src="{{ author.avatar.url }}" alt="{{ author.username }}"
-                 width="200" height="100" class="avatar-img">
+            {% cloudinary author.avatar quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
           </td>
         </tr>
       {% endfor %}

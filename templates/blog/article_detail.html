@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+{% block content %}
+  <h1>{{ article.title }}</h1>
+  {% for img in article.pictures.all %}
+    {% cloudinary img.picture quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+  {% endfor %}
+  <p><strong>Short description: </strong> {{ article.description }}</p>
+  <ul>
+    <li>
+      Written by:
+      <a href="{{ article.author.get_absolute_url }}">
+        {{ article.author.username }}
+      </a>
+    </li>
+    <li> Created at: {{ article.created_at }}</li>
+  </ul>
+  <p>Themes: </p>
+  <ul>
+    {% for theme in  article.themes.all %}
+      <li>
+        <a href="{{ theme.get_absolute_url }}">{{ theme.name }}</a>
+      </li>
+    {% empty %}
+      <p>No theme yet</p>
+    {% endfor %}
+  </ul>
+  <br>
+
+
+  <p>{{ article.content }}</p>
+  <h4>Comments</h4>
+  {% for comment in article.comments.all %}
+    <ul>
+      <li>
+        {{ comment.author.username }}
+        {% cloudinary comment.author.avatar quality="auto" width="50" height="50" crop="fill" gravity="face" %}
+      </li>
+      <li>
+        {{ comment.text }}
+      </li>
+      <li>
+        {{ comment.created_at }}
+      </li>
+    </ul>
+  {% endfor %}
+{% endblock %}

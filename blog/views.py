@@ -11,8 +11,9 @@ def index(request: HttpRequest) -> HttpResponse:
     num_themes = Theme.objects.count()
     num_articles = Article.objects.count()
 
-    num_visits = request.session.get("num_visits", 1)
-    request.session["num_visits"] = num_visits + 1
+    num_visits = request.session.get("num_visits", 0)
+    num_visits += 1
+    request.session["num_visits"] = num_visits
 
     ctx = {
         "num_authors": num_authors,
@@ -27,10 +28,37 @@ class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 10
 
+
 class ThemeListView(generic.ListView):
     model = Theme
     paginate_by = 10
 
+
 class ArticleListView(generic.ListView):
     model = Article
     paginate_by = 10
+
+    def get_queryset(self):
+        return (
+            Article.objects
+            .select_related("author")
+            .prefetch_related("themes")
+        )
+
+
+class ArticleDetailView(generic.DetailView):
+    model = Article
+
+    def get_queryset(self):
+        return (
+            Article.objects
+            .select_related("author")
+        )
+
+
+class ThemeDetailView(generic.DetailView):
+    model = Theme
+
+
+class AuthorDetailView(generic.DetailView):
+    model = get_user_model()

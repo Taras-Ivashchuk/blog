@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+{% block content %}
+  <h1>
+    Author: {{ author.username }}
+  </h1>
+  {% cloudinary author.avatar quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+  <p><strong>First name:</strong> {{ author.first_name }}</p>
+  <p><strong>Last name:</strong> {{ autor.last_name }}</p>
+  <h4> Articles </h4>
+  {% for article in author.articles.all %}
+    <ul>
+      <li>
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      </li>
+    </ul>
+  {% empty %}
+    <p>No articles yes</p>
+  {% endfor %}
+{% endblock %}

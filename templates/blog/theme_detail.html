@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Theme: {{ theme.name }}
+  </h1>
+  <h4> Articles </h4>
+  {% for article in theme.articles.all %}
+    <ul>
+      <li>
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      </li>
+    </ul>
+  {% empty %}
+    <p>No articles yes</p>
+  {% endfor %}
+{% endblock %}

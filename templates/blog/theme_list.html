@@ -19,7 +19,10 @@
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>
-            {{ theme.name }}
+            <a href="{{ theme.get_absolute_url }}">
+              {{ theme.name }}
+            </a>
+
           </td>
         </tr>
       {% endfor %}

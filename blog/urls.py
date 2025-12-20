@@ -12,7 +12,10 @@ urlpatterns = (
     [
         path("", index, name="index"),
         path("authors/", AuthorListView.as_view(), name="author-list"),
+        path("authors/<int:pk>", AuthorDetailView.as_view(), name="author-detail"),
         path("themes/", ThemeListView.as_view(), name="theme-list"),
+        path("themes/<int:pk>", ThemeDetailView.as_view(), name="theme-detail"),
         path("articles/", ArticleListView.as_view(), name="article-list"),
+        path("articles/<str:slug>", ArticleDetailView.as_view(), name="article-detail"),
     ]
 )

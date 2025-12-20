@@ -28,7 +28,9 @@
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>
-            {{ article.title }}
+            <a href="{{ article.get_absolute_url }}">
+              {{ article.title }}
+            </a>
           </td>
           <td>
             {{ article.description }}
@@ -37,13 +39,18 @@
             <ul class="list-unstyled list-inline">
               {% for theme in article.themes.all %}
                 <li>
-                  {{ theme.name }}
+                  <a href="{{ theme.get_absolute_url }}">
+                    {{ theme.name }}
+                  </a>
                 </li>
               {% endfor %}
             </ul>
           </td>
           <td>
-            {{ article.author }}
+            <a href="{{ article.author.get_absolute_url }}">
+              {{ article.author.username }}
+            </a>
+
           </td>
         </tr>
       {% endfor %}
