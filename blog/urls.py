@@ -17,5 +17,7 @@ urlpatterns = (
         path("themes/<int:pk>", ThemeDetailView.as_view(), name="theme-detail"),
         path("articles/", ArticleListView.as_view(), name="article-list"),
         path("articles/<str:slug>", ArticleDetailView.as_view(), name="article-detail"),
+        path("articles/<str:slug>/edit", ArticleEditView.as_view(), name="article-edit"),
+        path("article-images/<int:pk>/delete", ArticleImagesDeleteView.as_view(), name="article_image-delete"),
     ]
 )

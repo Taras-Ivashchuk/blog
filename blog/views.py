@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
+from blog.forms import ArticleEditForm
 from blog.models import Theme, Article, ArticleImages, Author
 
 
@@ -65,3 +68,45 @@ class ThemeDetailView(LoginRequiredMixin, generic.DetailView):
 
 class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
     model = get_user_model()
+
+
+class ArticleEditView(LoginRequiredMixin, generic.UpdateView):
+    model = Article
+    form_class = ArticleEditForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        pictures = self.object.pictures.all()
+        ctx["picture_list"] = pictures
+        return ctx
+
+    def form_valid(self, form):
+        try:
+            with transaction.atomic():
+                self.object = form.save()
+
+                pictures = self.request.FILES.getlist('new_pictures')
+                for picture in pictures:
+                    ArticleImages.objects.create(
+                        article=self.object,
+                        picture=picture
+                    )
+
+                return super().form_valid(form)
+
+        except Exception:
+            return self.form_invalid(form)
+
+
+class ArticleImagesDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = ArticleImages
+    template_name = "blog/articleimages_confirm_delete.html"
+
+    def get_success_url(self):
+        # Return to the article edit page after deletion
+        return reverse("blog:article-edit", kwargs={'slug': self.object.article.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['slug'] = self.object.article.slug
+        return context
