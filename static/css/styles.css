@@ -11,3 +11,11 @@ body {
     object-fit: cover;
     border-radius: 4px;
 }
+
+#logout-form {
+  display: inline;
+}
+#logout-form button {
+  padding: 0;
+  margin: 0;
+}

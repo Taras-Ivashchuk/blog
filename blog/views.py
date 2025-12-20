@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.views import generic
@@ -6,6 +8,7 @@ from django.views import generic
 from blog.models import Theme, Article, ArticleImages, Author
 
 
+@login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_authors = get_user_model().objects.count()
     num_themes = Theme.objects.count()
@@ -24,17 +27,17 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "blog/index.html", ctx)
 
 
-class AuthorListView(generic.ListView):
+class AuthorListView(LoginRequiredMixin, generic.ListView):
     model = Author
     paginate_by = 10
 
 
-class ThemeListView(generic.ListView):
+class ThemeListView(LoginRequiredMixin, generic.ListView):
     model = Theme
     paginate_by = 10
 
 
-class ArticleListView(generic.ListView):
+class ArticleListView(LoginRequiredMixin, generic.ListView):
     model = Article
     paginate_by = 10
 
@@ -46,7 +49,7 @@ class ArticleListView(generic.ListView):
         )
 
 
-class ArticleDetailView(generic.DetailView):
+class ArticleDetailView(LoginRequiredMixin, generic.DetailView):
     model = Article
 
     def get_queryset(self):
@@ -56,9 +59,9 @@ class ArticleDetailView(generic.DetailView):
         )
 
 
-class ThemeDetailView(generic.DetailView):
+class ThemeDetailView(LoginRequiredMixin, generic.DetailView):
     model = Theme
 
 
-class AuthorDetailView(generic.DetailView):
+class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
     model = get_user_model()

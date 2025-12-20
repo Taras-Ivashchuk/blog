@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'blog',
     'cloudinary',
+    'crispy_forms',
+    "crispy_bootstrap4",
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,6 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "blog.Author"
+LOGIN_REDIRECT_URL = '/'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
