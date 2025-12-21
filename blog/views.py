@@ -8,8 +8,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from django.views import generic
 
-from blog.forms import ArticleEditForm
-from blog.models import Theme, Article, ArticleImages, Author
+from blog.forms import ArticleEditForm, AuthorCreationForm, AuthorUpdateForm
+from blog.models import Theme, Article, ArticleImages
 
 
 @login_required
@@ -32,13 +32,54 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 class AuthorListView(LoginRequiredMixin, generic.ListView):
-    model = Author
+    model = get_user_model()
     paginate_by = 10
+
+
+class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
+    model = get_user_model()
+
+
+class AuthorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = get_user_model()
+    form_class = AuthorCreationForm
+
+
+class AuthorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = get_user_model()
+    form_class = AuthorUpdateForm
+
+
+class AuthorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = get_user_model()
+    success_url = reverse_lazy("blog:author-list")
 
 
 class ThemeListView(LoginRequiredMixin, generic.ListView):
     model = Theme
     paginate_by = 10
+
+
+class ThemeDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Theme
+
+
+class ThemeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Theme
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse_lazy("blog:theme-list")
+
+
+class ThemeEditView(LoginRequiredMixin, generic.UpdateView):
+    model = Theme
+    fields = "__all__"
+
+
+class ThemeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Theme
+    success_url = reverse_lazy("blog:theme-list")
 
 
 class ArticleListView(LoginRequiredMixin, generic.ListView):
@@ -61,14 +102,6 @@ class ArticleDetailView(LoginRequiredMixin, generic.DetailView):
             Article.objects
             .select_related("author")
         )
-
-
-class ThemeDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Theme
-
-
-class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
-    model = get_user_model()
 
 
 class ArticleEditView(LoginRequiredMixin, generic.UpdateView):
@@ -104,7 +137,6 @@ class ArticleImagesDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "blog/articleimages_confirm_delete.html"
 
     def get_success_url(self):
-        # Return to the article edit page after deletion
         return reverse("blog:article-edit", kwargs={'slug': self.object.article.slug})
 
     def get_context_data(self, **kwargs):
@@ -142,23 +174,3 @@ class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("blog:article-list")
-
-
-class ThemeCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Theme
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse_lazy("blog:theme-list")
-
-
-class ThemeEditView(LoginRequiredMixin, generic.UpdateView):
-    model = Theme
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse_lazy("blog:theme-list")
-
-class ThemeDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Theme
-    success_url = reverse_lazy("blog:theme-list")

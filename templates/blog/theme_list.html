@@ -15,12 +15,6 @@
         <th scope="col">
           Name
         </th>
-        <th scope="col">
-          Edit
-        </th>
-         <th scope="col">
-          Delete
-        </th>
       </tr>
       </thead>
       <tbody>
@@ -30,16 +24,6 @@
           <td>
             <a href="{{ theme.get_absolute_url }}">
               {{ theme.name }}
-            </a>
-          </td>
-          <td>
-            <a href="{% url "blog:theme-edit" pk=theme.pk %}" class="btn btn-primary">
-              Edit
-            </a>
-          </td>
-        <td>
-            <a href="{% url "blog:theme-delete" pk=theme.pk %}" class="btn btn-primary">
-              Delete
             </a>
           </td>
         </tr>

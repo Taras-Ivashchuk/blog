@@ -2,7 +2,10 @@
 {% load cloudinary %}
 
 {% block content %}
-  <h1>Authors</h1>
+  <div class="page-header">
+    <h1>Authors</h1>
+    <a href="{% url "blog:author-create" %}" class="btn btn-primary">&#43;</a>
+  </div>
   {% if author_list %}
     <table class="table table-striped">
       <thead>

@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
-    Theme: {{ theme.name }}
-  </h1>
+  <div class="page-header">
+    <h1>
+      Theme: {{ theme.name }}
+    </h1>
+    <div>
+      <a href="{% url "blog:theme-edit" pk=theme.pk %}" class="btn btn-success">
+        Edit
+      </a>
+      <a href="{% url "blog:theme-delete" pk=theme.pk %}" class="btn btn-danger">
+        Delete
+      </a>
+    </div>
+  </div>
   <h4> Articles </h4>
   {% for article in theme.articles.all %}
     <ul>
