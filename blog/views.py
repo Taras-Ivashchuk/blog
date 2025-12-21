@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from django.views import generic
 
@@ -135,3 +135,10 @@ class ArticleCreateView(LoginRequiredMixin, generic.CreateView):
 
         except Exception:
             return self.form_invalid(form)
+
+
+class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Article
+
+    def get_success_url(self):
+        return reverse_lazy("blog:article-list")

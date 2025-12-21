@@ -30,6 +30,7 @@
   <p>{{ article.content }}</p>
   <br>
   <a href="{% url "blog:article-edit" slug=article.slug %}" class="btn btn-secondary">Edit</a>
+  <a href="{% url "blog:article-delete" slug=article.slug %}" class="btn btn-secondary">Delete</a>
   <br>
   <br>
   <h4>Comments</h4>

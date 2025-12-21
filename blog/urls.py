@@ -1,8 +1,4 @@
-from debug_toolbar.toolbar import debug_toolbar_urls
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
 
 from blog.views import *
 
@@ -20,5 +16,6 @@ urlpatterns = (
         path("articles/<str:slug>/edit", ArticleEditView.as_view(), name="article-edit"),
         path("article-images/<int:pk>/delete", ArticleImagesDeleteView.as_view(), name="article_image-delete"),
         path("article/create", ArticleCreateView.as_view(), name="article-create"),
+        path("article/<str:slug>/delete", ArticleDeleteView.as_view(), name="article-delete"),
     ]
 )
