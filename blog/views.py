@@ -142,3 +142,23 @@ class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("blog:article-list")
+
+
+class ThemeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Theme
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse_lazy("blog:theme-list")
+
+
+class ThemeEditView(LoginRequiredMixin, generic.UpdateView):
+    model = Theme
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse_lazy("blog:theme-list")
+
+class ThemeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Theme
+    success_url = reverse_lazy("blog:theme-list")
