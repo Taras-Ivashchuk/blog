@@ -19,5 +19,6 @@ urlpatterns = (
         path("articles/<str:slug>", ArticleDetailView.as_view(), name="article-detail"),
         path("articles/<str:slug>/edit", ArticleEditView.as_view(), name="article-edit"),
         path("article-images/<int:pk>/delete", ArticleImagesDeleteView.as_view(), name="article_image-delete"),
+        path("article/create", ArticleCreateView.as_view(), name="article-create"),
     ]
 )

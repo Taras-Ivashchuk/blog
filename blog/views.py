@@ -5,6 +5,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.text import slugify
 from django.views import generic
 
 from blog.forms import ArticleEditForm
@@ -110,3 +111,27 @@ class ArticleImagesDeleteView(LoginRequiredMixin, generic.DeleteView):
         context = super().get_context_data(**kwargs)
         context['slug'] = self.object.article.slug
         return context
+
+
+class ArticleCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Article
+    form_class = ArticleEditForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.slug = slugify(form.instance.title)
+        try:
+            with transaction.atomic():
+                response = super().form_valid(form)
+
+                pictures = self.request.FILES.getlist('new_pictures')
+                for picture in pictures:
+                    ArticleImages.objects.create(
+                        article=self.object,
+                        picture=picture
+                    )
+
+                return response
+
+        except Exception:
+            return self.form_invalid(form)
