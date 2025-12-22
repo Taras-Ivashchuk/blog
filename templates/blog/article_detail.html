@@ -29,10 +29,17 @@
   <br>
   <p>{{ article.content }}</p>
   <br>
-  <a href="{% url "blog:article-edit" slug=article.slug %}" class="btn btn-success">Edit</a>
+  <a href="{% url "blog:article-edit" slug=article.slug %}" class="btn btn-warning">Edit</a>
   <a href="{% url "blog:article-delete" slug=article.slug %}" class="btn btn-danger">Delete</a>
   <br>
   <br>
+  <p><strong><label for="area">Add new comment:</label></strong></p>
+  <form action="{% url "blog:comment-create" %}" method="post">
+    {% csrf_token %}
+    <textarea id="area" name="comment-content">type here</textarea>
+    <input type="submit" value="Add" class="btn btn-success">
+    <input type="hidden" name="article_slug" value = "{{ article.slug }}">
+  </form>
   <h4>Comments</h4>
   {% for comment in article.comments.all %}
     <ul>

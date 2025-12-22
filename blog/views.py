@@ -3,13 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
-from django.views import generic
+from django.views import generic, View
 
 from blog.forms import ArticleEditForm, AuthorCreationForm, AuthorUpdateForm
-from blog.models import Theme, Article, ArticleImages
+from blog.models import Theme, Article, ArticleImages, Comments
 
 
 @login_required
@@ -174,3 +174,19 @@ class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("blog:article-list")
+
+
+class CommentCreateView(LoginRequiredMixin, View):
+    def post(self, request):
+        content = request.POST.get('comment-content')
+        article_slug = request.POST.get('article_slug')
+
+        article = get_object_or_404(Article, slug=article_slug)
+
+        Comments.objects.create(
+            text=content,
+            article=article,
+            author=request.user
+        )
+
+        return redirect('blog:article-detail', slug=article_slug)

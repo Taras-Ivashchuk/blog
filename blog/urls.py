@@ -23,5 +23,6 @@ urlpatterns = (
         path("article-images/<int:pk>/delete/", ArticleImagesDeleteView.as_view(), name="article_image-delete"),
         path("article/create/", ArticleCreateView.as_view(), name="article-create"),
         path("article/<str:slug>/delete/", ArticleDeleteView.as_view(), name="article-delete"),
+        path("comments/create/", CommentCreateView.as_view(), name="comment-create"),
     ]
 )
