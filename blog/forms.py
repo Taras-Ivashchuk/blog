@@ -29,6 +29,5 @@ class AuthorUpdateForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Remove the password field from update form
-        if 'password' in self.fields:
-            del self.fields['password']
+        if "password" in self.fields:
+            del self.fields["password"]
