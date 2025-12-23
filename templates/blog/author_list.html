@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Authors</h1>
+    <a href="{% url "blog:author-create" %}" class="btn btn-primary">&#43;</a>
+  </div>
+  {% if author_list %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Author first and last name
+        </th>
+        <th scope="col">
+          Author avatar
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for author in author_list %}
+        <tr>
+          <th scope="row">{{ author.id }}</th>
+          <td>
+            <a href="{{ author.get_absolute_url }}">
+              {{ author.username }}
+            </a>
+          </td>
+          <td>
+            {% cloudinary author.avatar quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no authors yet</p>
+  {% endif %}
+{% endblock %}

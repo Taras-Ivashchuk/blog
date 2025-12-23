@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      Author: {{ author.username }}
+    </h1>
+    {% cloudinary author.avatar quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+    <div>
+      <a href="{% url "blog:author-update" pk=author.pk %}" class="btn btn-success">Update</a>
+      <a href="{% url "blog:author-delete" pk=author.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+
+  <h4> Articles </h4>
+  {% for article in author.articles.all %}
+    <ul>
+      <li>
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      </li>
+    </ul>
+  {% empty %}
+    <p>No articles yes</p>
+  {% endfor %}
+  <h4>Comments</h4>
+  {% if author.comments.all %}
+    <table class="table table-striped">
+      {% for comment in author.comments.all %}
+        <thead>
+        <tr>
+          <th scope="col">
+            #
+          </th>
+          <th scope="col">
+            Article
+          </th>
+          <th scope="col">
+            Created at
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>
+            <a href="{{ comment.article.get_absolute_url }}">
+              {{ comment.article.title }}</a>
+          </td>
+          <td>
+            {{ comment.created_at }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No comments yet</p>
+  {% endif %}
+{% endblock %}

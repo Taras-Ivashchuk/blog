@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+{% block content %}
+  <h1>{{ object|yesno:"Update,Create" }} Article </h1>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <br>
+    <p><strong>Images:</strong></p>
+    {% if picture_list %}
+      <table>
+        {% for img in picture_list %}
+          <tr>
+            <td>
+              {% cloudinary img.picture quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+            </td>
+            <td>
+              <a href="{% url 'blog:article_image-delete' pk=img.pk %}"
+                 class="btn btn-danger btn-sm">
+                Delete
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p> no pictures </p>
+    {% endif %}
+    <h3>Add New Images</h3>
+    <label for="new_pictures">Upload new pictures:</label>
+    <input type="file"
+           id="new_pictures"
+           name="new_pictures"
+           accept="image/*"
+           multiple
+           class="form-control">
+    <small class="form-text text-muted">You can select multiple images at once</small>
+
+    <input type="submit" value="Submit"/>
+  </form>
+  <a href="{% url "blog:article-list" %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}
