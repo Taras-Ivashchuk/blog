@@ -120,11 +120,12 @@ class ArticleEditView(LoginRequiredMixin, generic.UpdateView):
                 self.object = form.save()
 
                 pictures = self.request.FILES.getlist('new_pictures')
-                for picture in pictures:
-                    ArticleImages.objects.create(
-                        article=self.object,
-                        picture=picture
-                    )
+
+                objs = (
+                    ArticleImages(article=self.object, picture=picture)
+                    for picture in pictures
+                )
+                ArticleImages.objects.bulk_create(objs)
 
                 return super().form_valid(form)
 
@@ -157,12 +158,12 @@ class ArticleCreateView(LoginRequiredMixin, generic.CreateView):
                 response = super().form_valid(form)
 
                 pictures = self.request.FILES.getlist('new_pictures')
-                for picture in pictures:
-                    ArticleImages.objects.create(
-                        article=self.object,
-                        picture=picture
-                    )
 
+                objs = (
+                    ArticleImages(article=self.object, picture=picture)
+                    for picture in pictures
+                )
+                ArticleImages.objects.bulk_create(objs)
                 return response
 
         except Exception:
