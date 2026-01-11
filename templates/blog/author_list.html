@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load cloudinary %}
 
 {% block content %}
   <div class="page-header">
@@ -31,7 +30,8 @@
             </a>
           </td>
           <td>
-            {% cloudinary author.avatar quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+            {% load cloudinary %}
+            {% cloudinary author.avatar quality="auto" onerror="this.onerror=null;this.src='/static/images/default_avatar.svg';" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
           </td>
         </tr>
       {% endfor %}
