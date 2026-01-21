@@ -1,18 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
-from blog.models import Author, Article, ArticleImages, Comments, Theme
-
-
-@admin.register(Author)
-class AuthorAdmin(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + (
-        ("Additional Info", {"fields": ("avatar",)}),
-    )
-
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        ("Additional Info", {"fields": ("avatar",)}),
-    )
+from blog.models import Article, ArticleImages, Comments, Theme
 
 
 class ArticleImageInstanceInline(admin.TabularInline):

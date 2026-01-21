@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'user',
     'blog',
     'cloudinary',
     'crispy_forms',
@@ -123,7 +124,9 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-AUTH_USER_MODEL = "blog.Author"
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = "user:login"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+AUTH_USER_MODEL = "user.Author"

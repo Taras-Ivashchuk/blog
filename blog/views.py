@@ -34,25 +34,29 @@ def index(request: HttpRequest) -> HttpResponse:
 class AuthorListView(LoginRequiredMixin, generic.ListView):
     model = get_user_model()
     paginate_by = 10
+    template_name = "blog/author_list.html"
 
 
 class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
     model = get_user_model()
-
+    template_name = "blog/author_detail.html"
 
 class AuthorCreateView(LoginRequiredMixin, generic.CreateView):
     model = get_user_model()
     form_class = AuthorCreationForm
+    template_name = "blog/author_form.html"
 
 
 class AuthorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = get_user_model()
     form_class = AuthorUpdateForm
+    template_name = "blog/author_form.html"
 
 
 class AuthorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = get_user_model()
     success_url = reverse_lazy("blog:author-list")
+    template_name = "blog/author_confirm_delete.html"
 
 
 class ThemeListView(LoginRequiredMixin, generic.ListView):
