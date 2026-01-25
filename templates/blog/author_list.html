@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
   <div class="page-header">
@@ -31,7 +32,11 @@
           </td>
           <td>
             {% load cloudinary %}
-            {% cloudinary author.avatar quality="auto" onerror="this.onerror=null;this.src='/static/images/default_avatar.svg';" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+            {% if author.avatar %}
+              {% cloudinary author.avatar quality="auto" onerror="this.src='/static/images/default_avatar.svg'" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+            {% else %}
+              <img src='{% static "images/default_avatar.svg" %}' alt="" width="200" height="100" >
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
