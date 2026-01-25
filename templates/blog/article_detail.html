@@ -4,7 +4,9 @@
 {% block content %}
   <h1>{{ article.title }}</h1>
   {% for img in article.pictures.all %}
-    {% cloudinary img.picture quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+    {% if img.picture %}
+      {% cloudinary img.picture onerror="this.remove()" quality="auto" width="200" height="100" crop="pad" background="gen_fill:ignore-foreground_true" %}
+    {% endif %}
   {% endfor %}
   <p><strong>Short description: </strong> {{ article.description }}</p>
   <ul>
@@ -38,7 +40,7 @@
     {% csrf_token %}
     <textarea id="area" name="comment-content">type here</textarea>
     <input type="submit" value="Add" class="btn btn-success">
-    <input type="hidden" name="article_slug" value = "{{ article.slug }}">
+    <input type="hidden" name="article_slug" value="{{ article.slug }}">
   </form>
   <h4>Comments</h4>
   {% for comment in article.comments.all %}
