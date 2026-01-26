@@ -1,22 +1,7 @@
 from cloudinary.models import CloudinaryField
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-
-
-class Author(AbstractUser):
-    avatar = CloudinaryField("avatar")
-
-    class Meta:
-        verbose_name = "author"
-        verbose_name_plural = "authors"
-
-    def __str__(self):
-        return f"{self.username} ({self.first_name} {self.last_name})"
-
-    def get_absolute_url(self):
-        return reverse("blog:author-detail", kwargs={"pk": self.pk})
 
 
 class Theme(models.Model):
@@ -32,6 +17,9 @@ class Theme(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog:theme-detail", kwargs={"pk": self.pk})
 
 
 class Article(models.Model):
@@ -63,23 +51,27 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse("blog:article-detail", kwargs={"slug": self.slug})
+
 
 class Comments(models.Model):
     text = models.TextField()
     author = models.ForeignKey(
-        Author,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="comments"
     )
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
-        related_name="articles"
+        related_name="comments"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name_plural = "Comments"
 
     def __str__(self):
         return f"{self.text[:50]}..."
@@ -92,3 +84,14 @@ class ArticleImages(models.Model):
         on_delete=models.CASCADE,
         related_name="pictures"
     )
+
+    class Meta:
+        verbose_name_plural = "Article images"
+
+    def __str__(self):
+        return self.article.title
+
+    def get_author(self):
+        return self.article.author.username
+
+    get_author.short_description = 'author'

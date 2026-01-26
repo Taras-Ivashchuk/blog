@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>My Blog Home</h1>
+  <p>Welcome to my Blog!</p>
+  <h2>Nerd stats</h2>
+  <p>My Blog service has the following record counts:</p>
+  <ul>
+    <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Themes:</strong> {{ num_themes }}</li>
+    <li><strong>Articles:</strong> {{ num_articles }}</li>
+  </ul>
+  <p>
+    You visited my blog {{ num_visits }}
+    time{{ num_visits|pluralize }}
+  </p>
+{% endblock %}
